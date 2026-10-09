@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>書籍登録</title>
+    </head>
+    <body>
+        <h1>書籍登録</h1>
+        <form method="POST">
+            <div>
+                <label for="isbn">ISBN</label>
+                <input type="text" id="isbn" name="isbn">
+            </div>
+            <div>
+                <label for="title">書名</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="author">著者</label>
+                <input type="text" id="author" name="author">
+            </div>
+            <div>
+                <label for="publisher">出版社</label>
+                <input type="text" id="publisher" name="publisher">
+            </div>
+            <div>
+                <label for="published_date">出版日</label>
+                <input type="date" id="published_date" name="published_date">
+            </div>
+            <div>
+                <label for="status">読書状態</label>
+                <select id="status" name="status">
+                    <option value="0">未読</option>
+                    <option value="1">読書中</option>
+                    <option value="2">読了</option>
+                </select>
+            </div>
+            <div>
+                <label for="memo">メモ</label>
+                <textarea id="memo" name="memo"></textarea>
+            </div>
+            <div>
+                <button type="submit">登録</button>
+            </div>
+        </form>
+    </body>
+</html>

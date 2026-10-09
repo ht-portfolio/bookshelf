@@ -1,7 +1,8 @@
 # db.py：DB処理
 
 import sqlite3
-from pathlib import Path
+from pathlib    import Path
+from models     import Book
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "data" / "bookshelf.db"
@@ -31,6 +32,43 @@ def init_db():
     conn.commit()
     conn.close()
     print(f"Database initialized: {DB_PATH}")
+
+# Bookオブジェクトを受け取り、booksテーブルに追加する。
+def add_book(book: Book):
+    # SQLite へ接続
+    conn = get_connection()
+
+    # booksテーブルへレコードを追加
+    cursor = conn.execute(
+        """
+        INSERT INTO books (
+            isbn,
+            title,
+            author,
+            publisher,
+            published_date,
+            status,
+            memo
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            book.isbn or None,
+            book.title,
+            book.author,
+            book.publisher,
+            book.published_date,
+            book.status,
+            book.memo,
+        )
+    )
+    # コミット
+    conn.commit()
+    # 自動採番されたidを取得し、bookオブジェクトのidに設定する。
+    book.id = cursor.lastrowid
+    # SQLite との接続を閉じる
+    conn.close()
+    return book
 
 if __name__ == "__main__":
     init_db()
