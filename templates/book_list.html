@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>蔵書一覧</title>
+    </head>
+    <body>
+        <p>
+            <a href="/books/new">書籍を登録する</a>
+        </p>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ISBN</th>
+                    <th>書名</th>
+                    <th>著者</th>
+                    <th>出版社</th>
+                    <th>出版日</th>
+                    <th>読書状態</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.isbn or "" }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author or "" }}</td>
+                    <td>{{ book.publisher or "" }}</td>
+                    <td>{{ book.published_date or "" }}</td>
+                    <td>
+                        {% if book.status == 0 %}
+                            未読
+                        {% elif book.status == 1 %}
+                            読書中
+                        {% elif book.status == 2 %}
+                            読了
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

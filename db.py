@@ -70,5 +70,48 @@ def add_book(book: Book):
     conn.close()
     return book
 
+def get_all_books():
+    # SQLiteへ接続。
+    conn = get_connection()
+
+    # booskテーブルの全レコードを取得。
+    rows = conn.execute(
+        """
+        SELECT
+            id,
+            isbn,
+            title,
+            author,
+            publisher,
+            published_date,
+            status,
+            memo,
+            created_at,
+            updated_at
+        FROM books
+        ORDER BY id DESC
+        """
+    ).fetchall()
+    # SQLiteとの接続を解除。
+    conn.close()
+    
+    # 各レコードをBookオブジェクトへ変換。
+    books = [
+        Book(
+            id      = row["id"],
+            isbn    = row["isbn"],
+            title   = row["title"],
+            author  = row["author"],
+            publisher       = row["publisher"],
+            published_date  = row["published_date"],
+            status  = row["status"],
+            memo    = row["memo"],
+            created_at  = row["created_at"],
+            updated_at  = row["updated_at"],
+        )
+        for row in rows
+    ]
+    return books
+
 if __name__ == "__main__":
     init_db()

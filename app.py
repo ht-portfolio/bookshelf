@@ -1,7 +1,7 @@
 # app.py 
 
 from flask  import Flask, render_template, request
-from db     import add_book
+from db     import add_book, get_all_books
 from models import Book
 
 app = Flask(__name__)
@@ -27,6 +27,11 @@ def new_book():
         add_book(book)
         return f"書籍を登録しました。ID: {book.id}"
     return render_template("book_form.html")
+
+@app.route("/books")
+def book_list():
+    books = get_all_books()
+    return render_template("book_list.html", books=books)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
