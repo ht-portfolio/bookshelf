@@ -1,0 +1,59 @@
+<!DOCTYPE html> 
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>書籍詳細</title>
+    </head>
+    <body>
+        <h1>書籍詳細</h1>
+        <p>
+            <a href="/books">蔵書一覧へ戻る</a>
+        </p>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <td>{{ book.id }}</td>
+            </tr>
+            <tr>
+                <th>書名</th>
+                <td>{{ book.title }}</td>
+            </tr>
+            <tr>
+                <th>著者</th>
+                <td>{{ book.author or "" }}</td>
+            </tr>
+            <tr>
+                <th>出版社</th>
+                <td>{{ book.publisher or "" }}</td>
+            </tr>
+            <tr>
+                <th>出版日</th>
+                <td>{{ book.published_date or "" }}</td>
+            </tr>
+            <tr>
+                <th>読書状態</th>
+                <td>
+                    {% if   book.status == 0 %}
+                        未読
+                    {% elif book.status == 1 %}
+                        読書中
+                    {% elif book.status == 2 %}
+                        読了
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>メモ</th>
+                <td>{{ book.memo or "" }}</td>
+            </tr>
+            <tr>
+                <th>登録日時</th>
+                <td>{{ book.created_at or "" }}</td>
+            </tr>
+            <tr>
+                <th>更新日時</th>
+                <td>{{ book.updated_at or "" }}</td>
+            </tr>
+        </table>
+    </body>
+</html>

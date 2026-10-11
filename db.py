@@ -94,7 +94,7 @@ def get_all_books():
     ).fetchall()
     # SQLiteとの接続を解除。
     conn.close()
-    
+
     # 各レコードをBookオブジェクトへ変換。
     books = [
         Book(
@@ -112,6 +112,49 @@ def get_all_books():
         for row in rows
     ]
     return books
+
+def get_book_by_id(book_id: int):
+    # SQLiteへ接続。
+    conn = get_connection()
+
+    # 検索し該当の一件を取得する。
+    row = conn.execute(
+        """
+        SELECT
+            id,
+            isbn,
+            title,
+            author,
+            publisher,
+            published_date,
+            status,
+            memo,
+            created_at,
+            updated_at
+        FROM books
+        WHERE id = ?
+        """,
+        (book_id,),
+    ).fetchone()
+
+    # SQLiteの接続を解除。
+    conn.close()
+
+    # 検索の結果、該当なしの場合はNoneを、該当があれば検索結果の先頭１レコードを返す。
+    if row is None:
+        return None
+    return Book(
+        id      = row["id"],
+        isbn    = row["isbn"],
+        title   = row["title"],
+        author  = row["author"],
+        publisher       = row["publisher"],
+        published_date  = row["published_date"],
+        status  = row["status"],
+        memo    = row["memo"],
+        created_at  = row["created_at"],
+        updated_at  = row["updated_at"],
+    )
 
 if __name__ == "__main__":
     init_db()

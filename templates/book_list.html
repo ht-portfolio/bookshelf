@@ -25,7 +25,11 @@
                 <tr>
                     <td>{{ book.id }}</td>
                     <td>{{ book.isbn or "" }}</td>
-                    <td>{{ book.title }}</td>
+                    <td>
+                        <a href="/books/{{ book.id }}">
+                            {{ book.title }}
+                        </a>
+                    </td>
                     <td>{{ book.author or "" }}</td>
                     <td>{{ book.publisher or "" }}</td>
                     <td>{{ book.published_date or "" }}</td>
