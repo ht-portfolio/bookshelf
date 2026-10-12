@@ -44,7 +44,6 @@ def book_detail(book_id):
 @app.route("/books/<int:book_id>/edit", methods=["GET", "POST"])
 def edit_book(book_id):
     book = get_book_by_id(book_id)
-    print("DEBUG author:", book.author)
 
     if book is None:
         return "指定された書籍は存在しません。", 404
@@ -55,7 +54,7 @@ def edit_book(book_id):
         book.title  = request.form.get("title","") 
         book.author = request.form.get("author") or None
         book.publisher      = request.form.get("publisher") or None
-        book.published_date = request.form.get("publisher_date") or None
+        book.published_date = request.form.get("published_date") or None
         book.status = int( request.form.get("status", 0))
         book.memo   = request.form.get("memo") or None
         # レコードを更新する。
