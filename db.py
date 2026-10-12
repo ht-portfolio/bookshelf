@@ -70,6 +70,7 @@ def add_book(book: Book):
     conn.close()
     return book
 
+# booskテーブルの全レコードを取得し、booksオブジェクトを返す。
 def get_all_books():
     # SQLiteへ接続。
     conn = get_connection()
@@ -155,6 +156,37 @@ def get_book_by_id(book_id: int):
         created_at  = row["created_at"],
         updated_at  = row["updated_at"],
     )
+
+def update_book(book: Book):
+    conn = get_connection()
+
+    conn.execute(
+        """
+        UPDATE books
+        SET
+            isbn    = ?,
+            title   = ?,
+            author  = ?,
+            publisher       = ?,
+            published_date  = ?,
+            status  = ?,
+            memo    = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+        """,
+        (
+            book.isbn or None,
+            book.title,
+            book.author,
+            book.publisher,
+            book.published_date,
+            book.status,
+            book.memo,
+            book.id,
+        ),
+    )
+    conn.commit()
+    conn.close()
 
 if __name__ == "__main__":
     init_db()

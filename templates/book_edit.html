@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>書籍編集</title>
+    </head>
+    <body>
+        <h1>書籍編集</h1>
+        <p>DEBUG: {{ book.author }}</p>
+        <p>
+            <a href="/books/{{ book.id }}">詳細画面へ戻る</a>
+        </p>
+        <form method="POST">
+            <div>
+                <label for="isbn">ISBN</label>
+                <input
+                    type    = "text"
+                    id      = "isbn"
+                    name    = "isbn"
+                    value   = "{{ book.isbn or '' }}"
+                >
+            </div>
+            <div>
+                <label for="title">書名</label>
+                <input
+                    type    = "text"
+                    id      = "title"
+                    name    = "title"
+                    value   = "{{ book.title or '' }}"
+                    required
+                >
+            </div>
+            <div>
+                <label for="author">著者</label>
+                <input
+                    type    = "text"
+                    id      = "author"
+                    name    = "author"
+                    value   = "{{ book.author or '' }}"
+                >
+            </div>
+            <div>
+                <label for="author">出版社</label>
+                <input
+                    type    = "text"
+                    id      = "publisher"
+                    name    = "publisher"
+                    value   = "{{ book.publisher or '' }}"
+                >
+            </div>
+            <div>
+                <label for="author">出版日</label>
+                <input
+                    type    = "date"
+                    id      = "published_date"
+                    name    = "published_date"
+                    value   = "{{ book.published_date or '' }}"
+                >
+            </div>
+            <div>
+                <label for="author">読書状態</label>
+                <select id="status" name="status">
+                    <option value="0" {% if book.status == 0 %}selected{% endif %}, %}>未読</option>
+                    <option value="1" {% if book.status == 1 %}selected{% endif %}, %}>読書中</option>
+                    <option value="2" {% if book.status == 2 %}selected{% endif %}, %}>読了</option>
+                </select>
+            </div>
+            <div>
+                <label for="memo">メモ</label>
+                <textarea id="memo" name="memo">{{ book.memo or "" }}</textarea>
+            </div>
+            <div>
+                <button type="submit">更新</button>
+            </div>
+        </form>
+    </body>
+</html>
