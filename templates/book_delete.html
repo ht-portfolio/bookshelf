@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="URF-8">
+        <title>書籍削除</title>
+    </head>
+    <book>
+        <h1>書籍削除</h1>
+        <p>以下の書籍を削除します。よろしいですか？</p>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <td>{{ book.id }}</td>
+            </tr>
+            <tr>
+                <th>書名</th>
+                <td>{{ book.title }}</td>
+            </tr>
+            <tr>
+                <th>著者</th>
+                <td>{{ book.author }}</td>
+            </tr>
+        </table>
+        <form method="POST">
+            <button type="submit">削除する</button>
+        </form>
+        <p>
+            <a href="/books/{{ book.id }}">キャンセル</a>
+        </p>
+    </book>
+</html>

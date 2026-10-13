@@ -188,5 +188,17 @@ def update_book(book: Book):
     conn.commit()
     conn.close()
 
+def delete_book(book_id: int):
+    conn = get_connection()
+    conn.execute(
+        """
+        DELETE FROM books
+        WHERE id = ?
+        """,
+        (book_id,),
+    )
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()

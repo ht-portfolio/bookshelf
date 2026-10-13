@@ -1,7 +1,13 @@
 # app.py 
 
-from flask  import Flask, render_template, request
-from db     import add_book, get_all_books, get_book_by_id, update_book
+from flask  import Flask, render_template, request, redirect, url_for
+from db     import (
+    add_book,
+    get_all_books,
+    get_book_by_id,
+    update_book,
+    delete_book,
+)
 from models import Book
 
 app = Flask(__name__)
@@ -63,6 +69,18 @@ def edit_book(book_id):
 
     return render_template("book_edit.html", book=book)
 
+@app.route("/books/<int:book_id>/delete", methods=["GET", "POST"])
+def delete_book_view(book_id):
+    book = get_book_by_id(book_id)
+
+    if book is None:
+        return "指定された書籍は存在しません。", 404
+    
+    if request.method == "POST":
+        delete_book(book_id)
+        return redirect(url_for("book_list"))
+
+    return render_template("book_delete.html", book=book)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
