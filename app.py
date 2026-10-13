@@ -32,7 +32,8 @@ def new_book():
         )
         # DBへ登録する。
         add_book(book)
-        return f"書籍を登録しました。ID: {book.id}"
+        # return f"書籍を登録しました。ID: {book.id}"
+        return redirect(url_for("book_list"))
     return render_template("book_form.html")
 
 @app.route("/books")
@@ -40,6 +41,7 @@ def book_list():
     keyword     = request.args.get("keyword", "").strip()
     status_text = request.args.get("status", "").strip()
     sort        = request.args.get("sort", "newest").strip()
+    print("DEBUG sort:", sort)
 
     if status_text in ("0", "1", "2"):
         status = int(status_text)

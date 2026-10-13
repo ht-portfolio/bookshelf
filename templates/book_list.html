@@ -30,16 +30,16 @@
                 </option>
             </select>
             <select name="sort">
-                <option value="newest" {% if sort == "newest" %}selected{% endif %}>
+                <option value="newest"  {% if sort == "newest" %}selected{% endif %}>
                     登録が新しい順
                 </option>
-                <option value="oldest" {% if status == "oldest" %}selected{% endif %}>
+                <option value="oldest"  {% if sort == "oldest" %}selected{% endif %}>
                     登録が古い順
                 </option>
-                <option value="title" {% if status == "title" %}selected{% endif %}>
+                <option value="title"   {% if sort == "title" %}selected{% endif %}>
                     書名順
                 </option>
-                <option value="published" {% if status == "published" %}selected{% endif %}>
+                <option value="published" {% if sort == "published" %}selected{% endif %}>
                     出版日が新しい順
                 </option>
             </select>
