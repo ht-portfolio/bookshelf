@@ -8,6 +8,18 @@
         <p>
             <a href="/books/new">書籍を登録する</a>
         </p>
+        <form method="GET" action="/books">
+            <input
+                type    ="text"
+                name    ="keyword"
+                value   ="{{ keyword }}"
+                placeholder ="書名・著者名・ISBN・出版社で検索"
+            >
+            <button type="submit">検索</button>
+            {% if keyword %}
+                <a href="/books">検索解除</a>
+            {% endif %}
+        </form>
         <table border="1">
             <thead>
                 <tr>

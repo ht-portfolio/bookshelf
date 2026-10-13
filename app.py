@@ -7,6 +7,7 @@ from db     import (
     get_book_by_id,
     update_book,
     delete_book,
+    serach_books,
 )
 from models import Book
 
@@ -36,8 +37,20 @@ def new_book():
 
 @app.route("/books")
 def book_list():
-    books = get_all_books()
-    return render_template("book_list.html", books=books)
+    keyword = request.args.get("keyword", "").strip()
+
+    if keyword:
+        # キーワードあり
+        books = serach_books(keyword)
+    else:
+        # キーワードなし（全権取得）
+        books = get_all_books()
+
+    return render_template(
+        "book_list.html",
+        books=books,
+        keyword=keyword,
+    )
 
 @app.route("/books/<int:book_id>")
 def book_detail(book_id):

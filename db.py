@@ -200,5 +200,56 @@ def delete_book(book_id: int):
     conn.commit()
     conn.close()
 
+def serach_books(keyword: str):
+    conn = get_connection()
+
+    serach_word = f"%{keyword}%"
+
+    rows = conn.execute(
+        """
+        SELECT
+            id,
+            isbn,
+            title,
+            author,
+            publisher,
+            published_date,
+            status,
+            memo,
+            created_at,
+            updated_at
+        FROM books
+        WHERE
+            title       LIKE ?
+            OR author   LIKE ?
+            OR isbn     LIKE ?
+            OR publisher LIKE ?
+        ORDER BY id DESC
+        """,
+        (
+            serach_word,
+            serach_word,
+            serach_word,
+            serach_word,
+        ),
+    ).fetchall()
+    conn.close()
+
+    return [
+        Book(
+            id      = row["id"],
+            isbn    = row["isbn"],
+            title   = row["title"],
+            author  = row["author"],
+            publisher       = row["publisher"],
+            published_date  = row["published_date"],
+            status  = row["status"],
+            memo    = row["memo"],
+            created_at  = row["created_at"],
+            updated_at  = row["updated_at"],
+        )
+        for row in rows
+    ]
+
 if __name__ == "__main__":
     init_db()
