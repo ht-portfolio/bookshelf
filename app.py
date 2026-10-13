@@ -37,9 +37,9 @@ def new_book():
 
 @app.route("/books")
 def book_list():
-    keyword = request.args.get("keyword", "").strip()
+    keyword     = request.args.get("keyword", "").strip()
     status_text = request.args.get("status", "").strip()
-    sort = request.args.get("sort", "newest").strip()
+    sort        = request.args.get("sort", "newest").strip()
 
     if status_text in ("0", "1", "2"):
         status = int(status_text)
@@ -49,9 +49,9 @@ def book_list():
     if sort not in ("newest", "oldest", "title", "published"):
         sort = "newest"
 
-    if keyword or status is not None:
+    if keyword or status is not None or sort != "newest":
         # キーワードあり
-        books = serach_books(keyword, status)
+        books = serach_books(keyword, status, sort)
     else:
         # キーワードなし（全権取得）
         books = get_all_books()

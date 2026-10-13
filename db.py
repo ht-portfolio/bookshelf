@@ -255,8 +255,8 @@ def serach_books(
         "published": "published_date DESC",
     }
     order_by = sort_options.get(sort, "id DESC")
-    sql += """
-        ORDER BY {oder_by}
+    sql += f"""
+        ORDER BY {order_by}
     """
 
     rows = conn.execute(sql, params).fetchall()
