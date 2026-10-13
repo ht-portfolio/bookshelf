@@ -38,18 +38,25 @@ def new_book():
 @app.route("/books")
 def book_list():
     keyword = request.args.get("keyword", "").strip()
+    status_text = request.args.get("status", "").strip()
 
-    if keyword:
+    if status_text in ("0", "1", "2"):
+        status = int(status_text)
+    else:
+        status = None
+
+    if keyword or status is not None:
         # キーワードあり
-        books = serach_books(keyword)
+        books = serach_books(keyword, status)
     else:
         # キーワードなし（全権取得）
         books = get_all_books()
 
     return render_template(
         "book_list.html",
-        books=books,
-        keyword=keyword,
+        books   = books,
+        keyword = keyword,
+        status  = status,
     )
 
 @app.route("/books/<int:book_id>")

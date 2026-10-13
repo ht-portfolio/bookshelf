@@ -200,13 +200,10 @@ def delete_book(book_id: int):
     conn.commit()
     conn.close()
 
-def serach_books(keyword: str):
+def serach_books(keyword: str = "", status: int | None = None):
     conn = get_connection()
 
-    serach_word = f"%{keyword}%"
-
-    rows = conn.execute(
-        """
+    sql = """
         SELECT
             id,
             isbn,
@@ -219,20 +216,39 @@ def serach_books(keyword: str):
             created_at,
             updated_at
         FROM books
-        WHERE
-            title       LIKE ?
-            OR author   LIKE ?
-            OR isbn     LIKE ?
-            OR publisher LIKE ?
+        WHERE 1 = 1
+    """
+
+    params = []
+
+    if keyword:
+        serach_word = f"%{keyword}%"
+        sql += """
+            AND (
+                title LIKE ?
+                OR author   LIKE ?
+                OR isbn     LIKE ?
+                OR publisher    LIKE ?
+            )
+        """
+        params.extend([
+            serach_word,
+            serach_word,
+            serach_word,
+            serach_word,
+        ])
+
+    if status is not None:
+        sql += """
+            AND status = ?
+        """
+        params.append(status)
+
+    sql += """
         ORDER BY id DESC
-        """,
-        (
-            serach_word,
-            serach_word,
-            serach_word,
-            serach_word,
-        ),
-    ).fetchall()
+    """
+
+    rows = conn.execute(sql, params).fetchall()
     conn.close()
 
     return [

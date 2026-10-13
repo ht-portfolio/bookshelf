@@ -15,6 +15,20 @@
                 value   ="{{ keyword }}"
                 placeholder ="書名・著者名・ISBN・出版社で検索"
             >
+            <select name="status">
+                <option value="" {% if status is none %}selected{% endif %}>
+                    すべて
+                </option>
+                <option value="0" {% if status == 0 %}selected{% endif %}>
+                    未読
+                </option>
+                <option value="1" {% if status == 1 %}selected{% endif %}>
+                    読書中
+                </option>
+                <option value="2" {% if status == 2 %}selected{% endif %}>
+                    読了
+                </option>
+            </select>
             <button type="submit">検索</button>
             {% if keyword %}
                 <a href="/books">検索解除</a>
