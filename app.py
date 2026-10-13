@@ -39,11 +39,15 @@ def new_book():
 def book_list():
     keyword = request.args.get("keyword", "").strip()
     status_text = request.args.get("status", "").strip()
+    sort = request.args.get("sort", "newest").strip()
 
     if status_text in ("0", "1", "2"):
         status = int(status_text)
     else:
         status = None
+
+    if sort not in ("newest", "oldest", "title", "published"):
+        sort = "newest"
 
     if keyword or status is not None:
         # キーワードあり
@@ -57,6 +61,7 @@ def book_list():
         books   = books,
         keyword = keyword,
         status  = status,
+        sort    = sort,
     )
 
 @app.route("/books/<int:book_id>")

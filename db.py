@@ -200,7 +200,11 @@ def delete_book(book_id: int):
     conn.commit()
     conn.close()
 
-def serach_books(keyword: str = "", status: int | None = None):
+def serach_books(
+        keyword: str = "",
+        status: int | None = None,
+        sort:   str = "newest"
+):
     conn = get_connection()
 
     sql = """
@@ -244,8 +248,15 @@ def serach_books(keyword: str = "", status: int | None = None):
         """
         params.append(status)
 
+    sort_options = {
+        "newest":   "id DESC",
+        "oldest":   "id ASC",
+        "title" :   "title ASC",
+        "published": "published_date DESC",
+    }
+    order_by = sort_options.get(sort, "id DESC")
     sql += """
-        ORDER BY id DESC
+        ORDER BY {oder_by}
     """
 
     rows = conn.execute(sql, params).fetchall()
