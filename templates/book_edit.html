@@ -16,6 +16,7 @@
                     type    = "text"
                     id      = "isbn"
                     name    = "isbn"
+                    maxlength = "20"
                     value   = "{{ book.isbn or '' }}"
                 >
             </div>
@@ -25,6 +26,7 @@
                     type    = "text"
                     id      = "title"
                     name    = "title"
+                    maxlength = "200"
                     value   = "{{ book.title or '' }}"
                     required
                 >
@@ -35,6 +37,7 @@
                     type    = "text"
                     id      = "author"
                     name    = "author"
+                    maxlength = "200"
                     value   = "{{ book.author or '' }}"
                 >
             </div>
@@ -44,6 +47,7 @@
                     type    = "text"
                     id      = "publisher"
                     name    = "publisher"
+                    maxlength = "200"
                     value   = "{{ book.publisher or '' }}"
                 >
             </div>
@@ -53,6 +57,7 @@
                     type    = "date"
                     id      = "published_date"
                     name    = "published_date"
+                    maxlength = "200"
                     value   = "{{ book.published_date or '' }}"
                 >
             </div>
@@ -66,7 +71,11 @@
             </div>
             <div>
                 <label for="memo">メモ</label>
-                <textarea id="memo" name="memo">{{ book.memo or "" }}</textarea>
+                <textarea
+                    id  ="memo"
+                    name="memo"
+                    maxlength="2000"
+                    >{{ book.memo or "" }}</textarea>
             </div>
             <div>
                 <button type="submit">更新</button>

@@ -6,38 +6,94 @@
     </head>
     <body>
         <h1>書籍登録</h1>
+        {% if errors %}
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <form method="POST">
             <div>
                 <label for="isbn">ISBN</label>
-                <input type="text" id="isbn" name="isbn">
+                <input
+                    type="text"
+                    id  ="isbn"
+                    name="isbn"
+                    maxlength = "20"
+                    value = "{{ form_data.get('isbn', '') }}"
+                >
             </div>
             <div>
                 <label for="title">書名</label>
-                <input type="text" id="title" name="title" required>
+                <input
+                    type="text"
+                    id  ="title"
+                    name="title"
+                    maxlength ="200"
+                    required
+                    value = "{{ form_data.get('title', '') }}"
+                >
             </div>
             <div>
                 <label for="author">著者</label>
-                <input type="text" id="author" name="author">
+                <input
+                    type="text"
+                    id  ="author"
+                    name="author"
+                    maxlength ="200"
+                    value = "{{ form_data.get('author', '') }}"
+                >
             </div>
             <div>
                 <label for="publisher">出版社</label>
-                <input type="text" id="publisher" name="publisher">
+                <input
+                    type="text"
+                    id  ="publisher"
+                    name="publisher"
+                    maxlength="200"
+                    value="{{ form_data.get('publisher', '') }}"
+                >
             </div>
             <div>
                 <label for="published_date">出版日</label>
-                <input type="date" id="published_date" name="published_date">
+                <input
+                    type="date"
+                    id  ="published_date"
+                    name="published_date"
+                    maxlength="200"
+                    value="{{ form_data.get('publisher', '') }}"
+                >
             </div>
             <div>
                 <label for="status">読書状態</label>
                 <select id="status" name="status">
-                    <option value="0">未読</option>
-                    <option value="1">読書中</option>
-                    <option value="2">読了</option>
+                    <option
+                        value="0"
+                        {% if form_data.get('status', '0') == '0' %}selected{% endif %}
+                    >
+                        未読
+                    </option>
+                    <option
+                        value="1"
+                        {% if form_data.get('status', '0') == '1' %}selected{% endif %}
+                    >
+                        読書中</option>
+                    <option
+                        value="2"
+                        {% if form_data.get('status', '0') == '2' %}selected{% endif %}
+                    >
+                        読了
+                    </option>
                 </select>
             </div>
             <div>
                 <label for="memo">メモ</label>
-                <textarea id="memo" name="memo"></textarea>
+                <textarea 
+                    id  ="memo"
+                    name="memo"
+                    maxlength="2000"
+                >{{ form_data.get('memo', '') }}</textarea>
             </div>
             <div>
                 <button type="submit">登録</button>
