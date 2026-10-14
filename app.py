@@ -33,7 +33,7 @@ def new_book():
         # request.form から値を取得し、bookオブジェクトを作成する。
         book = Book(
             isbn    = request.form.get("isbn", "").strip() or None,
-            title   = request.form.get("title", "").stirip(),
+            title   = request.form.get("title", "").strip(),
             author  = request.form.get("author", "").strip() or None,
             publisher= request.form.get("publisher", "").strip() or None,
             published_date= request.form.get("published_date", "").strip() or None,
