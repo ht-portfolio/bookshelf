@@ -1,5 +1,6 @@
 # app.py 
 
+import sqlite3
 from flask  import Flask, render_template, request, redirect, url_for
 from db     import (
     add_book,
@@ -41,8 +42,17 @@ def new_book():
             memo    = request.form.get("memo", "").strip() or None,
         )
 
-        # DBへ登録する。
-        add_book(book)
+        try:
+            # DBへ登録する。
+            add_book(book)
+        except sqlite3.IntegrityError:
+            # エラー処理
+            errors.append("このISBNはすでに登録されています。")
+            return render_template(
+                "book_form.html",
+                errors = errors,
+                form_data = request.form,
+            )
 
         # return f"書籍を登録しました。ID: {book.id}"
         return redirect(url_for("book_list"))
@@ -117,11 +127,21 @@ def edit_book(book_id):
         book.status = int( request.form.get("status", 0))
         book.memo   = request.form.get("memo").strip() or None
 
-        # レコードを更新する。
-        update_book(book)
-        
+        try:
+            # レコードを更新する。
+            update_book(book)
+        except sqlite3.IntegrityError:
+            errors.append("このISBNはすでに登録されています。")
+            return render_template(
+                "book_edit.html",
+                book=book,
+                errors=errors,
+                form_data = request.form,
+            )
+
+        print("redirect(url_for(""book_detail"",")
         # return f"書籍を更新しました。ID： {book.id}"
-        return redirect(url_for("book_list"))
+        return redirect(url_for("book_detail", book_id=book.id))
 
     return render_template("book_edit.html", book=book)
 
@@ -178,9 +198,5 @@ def validate_book_form(form):
 
     return errors
     
-
-
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)

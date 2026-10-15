@@ -37,38 +37,42 @@ def init_db():
 def add_book(book: Book):
     # SQLite へ接続
     conn = get_connection()
-
-    # booksテーブルへレコードを追加
-    cursor = conn.execute(
-        """
-        INSERT INTO books (
-            isbn,
-            title,
-            author,
-            publisher,
-            published_date,
-            status,
-            memo
+    try:
+        # booksテーブルへレコードを追加
+        cursor = conn.execute(
+            """
+            INSERT INTO books (
+                isbn,
+                title,
+                author,
+                publisher,
+                published_date,
+                status,
+                memo
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                book.isbn or None,
+                book.title,
+                book.author,
+                book.publisher,
+                book.published_date,
+                book.status,
+                book.memo,
+            )
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            book.isbn or None,
-            book.title,
-            book.author,
-            book.publisher,
-            book.published_date,
-            book.status,
-            book.memo,
-        )
-    )
-    # コミット
-    conn.commit()
-    # 自動採番されたidを取得し、bookオブジェクトのidに設定する。
-    book.id = cursor.lastrowid
-    # SQLite との接続を閉じる
-    conn.close()
-    return book
+        # コミット
+        conn.commit()
+        # 自動採番されたidを取得し、bookオブジェクトのidに設定する。
+        book.id = cursor.lastrowid
+        return book
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        # SQLite との接続を閉じる
+        conn.close()
 
 # booskテーブルの全レコードを取得し、booksオブジェクトを返す。
 def get_all_books():
@@ -160,33 +164,39 @@ def get_book_by_id(book_id: int):
 def update_book(book: Book):
     conn = get_connection()
 
-    conn.execute(
-        """
-        UPDATE books
-        SET
-            isbn    = ?,
-            title   = ?,
-            author  = ?,
-            publisher       = ?,
-            published_date  = ?,
-            status  = ?,
-            memo    = ?,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-        """,
-        (
-            book.isbn or None,
-            book.title,
-            book.author,
-            book.publisher,
-            book.published_date,
-            book.status,
-            book.memo,
-            book.id,
-        ),
-    )
-    conn.commit()
-    conn.close()
+    try:
+        conn.execute(
+            """
+            UPDATE books
+            SET
+                isbn    = ?,
+                title   = ?,
+                author  = ?,
+                publisher       = ?,
+                published_date  = ?,
+                status  = ?,
+                memo    = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            """,
+            (
+                book.isbn or None,
+                book.title,
+                book.author,
+                book.publisher,
+                book.published_date,
+                book.status,
+                book.memo,
+                book.id,
+            ),
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        # SQLite との接続を閉じる
+        conn.close()
 
 def delete_book(book_id: int):
     conn = get_connection()
