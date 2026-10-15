@@ -13,9 +13,6 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        <p>
-            <a href="/books/{{ book.id }}">詳細画面へ戻る</a>
-        </p>
         <form method="POST">
             <div>
                 <label for="isbn">ISBN</label>
@@ -86,6 +83,9 @@
             </div>
             <div>
                 <button type="submit">更新</button>
+            </div>
+            <div>
+                <a href="/books/{{ book.id }}">詳細画面へ戻る</a>
             </div>
         </form>
     </body>
