@@ -3,6 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>書籍登録</title>
+        <style>
+            .form-row {
+                margin-bottom: 2px;
+            }
+            .form-row label {
+                display: inline-block;
+                width: 80px;
+            }
+        </style>
     </head>
     <body>
         <h1>書籍登録</h1>
@@ -14,7 +23,7 @@
             </ul>
         {% endif %}
         <form method="POST">
-            <div>
+            <div class="form-row">
                 <label for="isbn">ISBN</label>
                 <input
                     type="text"
@@ -24,7 +33,7 @@
                     value = "{{ form_data.get('isbn', '') }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="title">書名</label>
                 <input
                     type="text"
@@ -35,7 +44,7 @@
                     value = "{{ form_data.get('title', '') }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="author">著者</label>
                 <input
                     type="text"
@@ -45,7 +54,7 @@
                     value = "{{ form_data.get('author', '') }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="publisher">出版社</label>
                 <input
                     type="text"
@@ -55,7 +64,7 @@
                     value="{{ form_data.get('publisher', '') }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="published_date">出版日</label>
                 <input
                     type="date"
@@ -65,7 +74,7 @@
                     value="{{ form_data.get('publisher', '') }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="status">読書状態</label>
                 <select id="status" name="status">
                     <option
@@ -87,7 +96,7 @@
                     </option>
                 </select>
             </div>
-            <div>
+            <div class="form-row">
                 <label for="memo">メモ</label>
                 <textarea 
                     id  ="memo"

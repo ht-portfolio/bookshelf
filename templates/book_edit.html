@@ -3,6 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title>書籍編集</title>
+        <style>
+            .form-row {
+                margin-bottom: 2px;
+            }
+            .form-row label {
+                display: inline-block;
+                width: 80px;
+            }
+        </style>
     </head>
     <body>
         <h1>書籍編集</h1>
@@ -14,7 +23,7 @@
             </ul>
         {% endif %}
         <form method="POST">
-            <div>
+            <div class="form-row">
                 <label for="isbn">ISBN</label>
                 <input
                     type    = "text"
@@ -24,7 +33,7 @@
                     value   = "{{ book.isbn or '' }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="title">書名</label>
                 <input
                     type    = "text"
@@ -35,7 +44,7 @@
                     required
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="author">著者</label>
                 <input
                     type    = "text"
@@ -45,7 +54,7 @@
                     value   = "{{ book.author or '' }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="author">出版社</label>
                 <input
                     type    = "text"
@@ -55,7 +64,7 @@
                     value   = "{{ book.publisher or '' }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="author">出版日</label>
                 <input
                     type    = "date"
@@ -65,7 +74,7 @@
                     value   = "{{ book.published_date or '' }}"
                 >
             </div>
-            <div>
+            <div class="form-row">
                 <label for="author">読書状態</label>
                 <select id="status" name="status">
                     <option value="0" {% if book.status == 0 %}selected{% endif %}, %}>未読</option>
@@ -73,7 +82,7 @@
                     <option value="2" {% if book.status == 2 %}selected{% endif %}, %}>読了</option>
                 </select>
             </div>
-            <div>
+            <div class="form-row">
                 <label for="memo">メモ</label>
                 <textarea
                     id  ="memo"
